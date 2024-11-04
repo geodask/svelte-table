@@ -1,7 +1,8 @@
-import { mdsvex } from 'mdsvex';
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { mdsvex } from 'mdsvex';
 import { join } from 'path';
+import { createHighlighter } from 'shiki';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,6 +11,21 @@ const config = {
 	preprocess: [
 		vitePreprocess(),
 		mdsvex({
+			highlight: {
+				highlighter: async (code, lang = 'text') => {
+					const highlighter = await createHighlighter({
+						langs: ['svelte', 'typescript', 'javascript', 'bash'],
+						themes: ['dark-plus']
+					});
+
+					await highlighter.loadLanguage('svelte', 'typescript', 'javascript', 'bash');
+					const html = highlighter.codeToHtml(code, {
+						lang,
+						theme: 'dark-plus'
+					});
+					return `{@html \`${html}\` }`;
+				}
+			},
 			layout: {
 				page: join(import.meta.dirname, './src/lib/markdown/layouts/default.svelte'),
 				_: join(import.meta.dirname, './src/lib/markdown/layouts/default.svelte')

@@ -2,3 +2,123 @@
 title: Installation
 subtitle: Get started quickly and efficiently
 ---
+
+Welcome to svelte-table! Let’s walk through the steps to get you up and running with flexible, customizable tables.
+
+#### Step 1: Install the Library
+Start by installing svelte-table. Open your terminal and run the following command:
+
+```bash
+pnpm add svelte-table
+```
+
+That’s it—you’re ready to move on!
+
+#### Step 2: Setting Up Your Table
+
+Now that you have the library installed, let’s configure your table in just a few easy steps.
+
+1.Import the createTable Function
+
+First, import the createTable function into your Svelte component like so:
+
+```svelte
+<script lang="ts">
+  import { createTable } from 'svelte-table';
+</script>
+```
+
+2.Define Your Data Model
+
+Next, define the data you want to display in your table. Let’s assume you’re building a table to display user information. Here’s an example of how you can model a list of users:
+
+```typescript
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+const data: User[] = [
+  {
+    id: 1,
+    name: 'Alice',
+    email: 'alice@example.com'
+  },
+  {
+    id: 2,
+    name: 'Bob',
+    email: 'bob@example.com'
+  }
+];
+```
+This defines your dataset—feel free to expand or modify it based on your needs.
+
+3.Create Your Column Model
+Next, you need to specify the columns for your table. Each column will correspond to a property in your data model. Here’s how you can set that up:
+
+```svelte
+<script lang="ts">
+  import { createTable, Column } from 'svelte-table';
+
+  const columns: Column<User>[] = [
+    {
+      key: 'id',
+      label: 'User ID'
+    },
+    {
+      key: 'name',
+      label: 'Name'
+    },
+    {
+      key: 'email',
+      label: 'Email'
+    }
+  ];
+</script>
+```
+
+The key in each column corresponds to a property from your data model, ensuring the right data gets displayed in the right place.
+
+4.Initialize the Table
+
+Now, let’s bring everything together by creating an instance of the table with your data and column definitions:
+
+```typescript
+const table = createTable(data, { columns });
+```
+
+Great job! Your table instance is now ready to be rendered.
+
+#### Step 3: Rendering the Table
+
+One of the best things about svelte-table is that it’s completely headless, meaning you have full control over how the table is rendered and styled. Here’s a basic example of how to render your table:
+
+```svelte
+<table>
+  <thead>
+    <tr>
+      {#each table.headers as header}
+        <th>{header}</th>
+      {/each}
+    </tr>
+  </thead>
+  <tbody>
+    {#each table.rows as row}
+      <tr>
+        {#each row.cells as cell}
+          <td>{cell.value}</td>
+        {/each}
+      </tr>
+    {/each}
+  </tbody>
+</table>
+```
+
+This gives you a simple, functional table that you can fully customize. Feel free to add styles, interactive features, or tweak the layout to fit your project!
+
+Conclusion
+And that’s it—you’ve successfully set up and rendered your first table using svelte-table. From here, you can explore more advanced features, such as sorting, filtering, and pagination, or add your own styles to make the table truly your own.
+
+Happy coding!
+

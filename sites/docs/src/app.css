@@ -73,3 +73,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+pre {
+  @apply p-2 rounded-md my-4;
+}
