@@ -17,6 +17,7 @@
 		{
 			label: 'Getting Started',
 			items: [
+				{ label: 'Introduction', href: '/docs/introduction' },
 				{ label: 'Installation', href: '/docs/installation' },
 				{ label: 'Usage', href: '/docs/usage' }
 			]
@@ -43,20 +44,24 @@
 </script>
 
 <div class="flex p-2">
-	<div class="w-72 px-2">
+	<div class="w-72 min-w-72 px-2">
 		{#each items as item}
 			{@render SidebarItem_({ label: item.label, items: item.items })}
 		{/each}
 	</div>
 
-	{@render children()}
+	<div class="grow px-2">
+		{@render children()}
+	</div>
+  
+	<div class="w-72 min-w-72 px-2"></div>
 </div>
 
 {#snippet SidebarItem_({ label, items }: SidebarItem)}
 	<Collapsible.Root>
 		<Collapsible.Trigger>
 			{#snippet child({ props })}
-				<Button {...props} class="group w-full justify-start" variant="ghost" size="sm">
+				<Button {...props} class="group w-full justify-start font-bold" variant="ghost" size="sm">
 					{label}
 					<ChevronDown
 						class="ml-auto transition-transform group-data-[state=open]:rotate-180"
