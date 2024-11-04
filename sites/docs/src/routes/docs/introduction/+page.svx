@@ -1,0 +1,19 @@
+---
+title: Introduction
+subtitle: A basic introduction to SvelteTable.
+---
+
+Welcome to svelte-table! 🎉
+
+This lightweight, headless table library for Svelte is all about making your life easier when
+building dynamic tables. Whether you're displaying simple data or creating complex data grids,
+svelte-table has got your back!
+
+What sets svelte-table apart? It packs essential features like sorting, filtering, and pagination,
+but with a twist: you have complete control over how your table looks and behaves! 🎨
+
+Forget about rigid structures or enforced styles—svelte-table is designed to be flexible and
+intuitive. Its easy-to-use API lets you focus on what really matters: creating powerful data
+tables that perfectly fit your application's needs.
+
+So, dive in and start building stunning tables with svelte-table today! 🚀
