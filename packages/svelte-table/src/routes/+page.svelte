@@ -1,34 +1,20 @@
 <script lang="ts">
 	import { createTable, type Column } from '$lib/index.js';
+	import type { Post } from './+page.js';
 
-	// Define your user type
-	type User = {
-		id: number;
-		name: string;
-	};
+	const { data } = $props();
 
-	// Create initial data and columns
-	const initialData: User[] = [
-		{ id: 1, name: 'John' },
-		{ id: 2, name: 'Jane' }
-	];
+	const posts = $state(data.posts);
 
-	const initialColumns: Column<User>[] = [
+	const columns: Column<Post>[] = $state([
 		{ key: 'id', label: 'ID' },
-		{ key: 'name', label: 'Name' }
-	];
+		{ key: 'title', label: 'Title' },
+		{ key: 'body', label: 'Body' }
+	]);
 
-	// Use the state management from table.svelte.ts
-	const table = createTable<User>(initialData, initialColumns);
-
-	function onClick() {
-		table.updateData((data) => {
-			return [...data, { id: data.length + 1, name: 'New user' }];
-		});
-	}
+	const table = createTable(posts, columns);
 </script>
 
-<!-- Table markup -->
 <table>
 	<thead>
 		<tr>
@@ -47,5 +33,3 @@
 		{/each}
 	</tbody>
 </table>
-
-<button onclick={onClick}>Add item</button>

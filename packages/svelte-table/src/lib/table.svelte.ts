@@ -20,10 +20,6 @@ export interface Table<T> {
 	columns: Column<T>[];
 	headers: string[];
 	rows: Row<T>[];
-
-	setColumns(columns: Column<T>[]): void;
-
-	updateData(updater: (data: T[]) => T[] | T[]): void;
 }
 
 export class TableDef<T> implements Table<T> {
@@ -33,21 +29,9 @@ export class TableDef<T> implements Table<T> {
 	headers = $derived(this.generateHeaders());
 	rows = $derived(this.generateRows());
 
-	constructor(initialData: T[], initialColumns: Column<T>[]) {
-		this.data = initialData;
-		this.columns = initialColumns;
-	}
-
-	setColumns(columns: Column<T>[]) {
+	constructor(data: T[], columns: Column<T>[]) {
+		this.data = data;
 		this.columns = columns;
-	}
-
-	updateData(updater: (data: T[]) => T[] | T[]) {
-		if (typeof updater === 'function') {
-			this.data = updater(this.data);
-		} else {
-			this.data = updater;
-		}
 	}
 
 	private generateHeaders() {
