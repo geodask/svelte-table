@@ -5,13 +5,13 @@ subtitle:
 
 Svelte table is intutive and extremely easy to use.
 
-The core function is `createTable` where you pass the data you need to display and the column models
+The core function is `createTable`, where you pass the data you want to display along with the column models.
 
-### Define your data
+### Defining your data
 
-In its most basic form, the table receives 2 parameters. The first on is the data. Svelte Table leverages the awesome runes that Svelte 5 provides to build a reactive table state.
+In its simplest form, the table takes two parameters. The first is the data. Svelte Table utilizes the powerful runes provided by Svelte 5 to create a reactive table state.
 
-You achieve this you need to define your data a state using the `$state` rune.
+You achieve this you need to define your data using the `$state` rune.
 
 ```javascript
 const data = $state([
@@ -21,9 +21,9 @@ const data = $state([
 ]);
 ```
 
-### Define the columns
+### Defining the columns
 
-Next you need to define the column model again using the `$state` rune.
+Next, define the column model, again using the $state rune:
 
 ```javascript
 const columns = $state([
@@ -36,13 +36,13 @@ const columns = $state([
 
 ### Create the table
 
-Then after you define the data and columns all you need to do is call the `createTable` function to create your table.
+Once you’ve defined the data and columns, all that’s left is to call the `createTable` function to generate your table:
 
 ```javascript
 const table = createTable(data, columns);
 ```
 
-That's it! Your table is ready to go! It's up to you to render it however you want. Here a basic structure:
+That's it! Your table is now ready to go. It's entirely up to you how you render it. Here’s a basic structure for rendering:
 
 ```svelte
 <table>
@@ -65,7 +65,7 @@ That's it! Your table is ready to go! It's up to you to render it however you wa
 </table>
 ```
 
-This is the output. You can style it however you want
+Here’s the expected output. You can style it however you'd like:
 
 <table>
 	<thead>
