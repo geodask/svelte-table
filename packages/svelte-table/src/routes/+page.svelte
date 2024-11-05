@@ -6,7 +6,7 @@
 
 	const posts = $state(data.posts);
 
-	const columns: Column<Post>[] = $state([
+	const columns = $state<Column<Post>[]>([
 		{ key: 'id', label: 'ID' },
 		{ key: 'title', label: 'Title' },
 		{ key: 'body', label: 'Body' }

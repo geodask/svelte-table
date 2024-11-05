@@ -1,14 +1,15 @@
 export type Column<T> = {
 	key: keyof T;
 	label: string;
+	formatter?: (value: T[keyof T]) => string;
 };
 
-export type Row<T> = {
-	cells: Cell<T>[];
+export type Row = {
+	cells: Cell[];
 };
 
-export type Cell<T> = {
-	value: T[keyof T];
+export type Cell = {
+	value: string;
 };
 
 export type CreateTableOptions<T> = {
@@ -19,7 +20,7 @@ export interface Table<T> {
 	data: T[];
 	columns: Column<T>[];
 	headers: string[];
-	rows: Row<T>[];
+	rows: Row[];
 }
 
 export class TableDef<T> implements Table<T> {
@@ -46,15 +47,15 @@ export class TableDef<T> implements Table<T> {
 		return column.label;
 	}
 
-	private mapRow(item: T): Row<T> {
+	private mapRow(item: T): Row {
 		return {
 			cells: this.columns.map((column) => this.mapCell(column, item))
 		};
 	}
 
-	private mapCell(column: Column<T>, item: T): Cell<T> {
+	private mapCell(column: Column<T>, item: T): Cell {
 		return {
-			value: item[column.key]
+			value: column.formatter ? column.formatter(item[column.key]) : String(item[column.key])
 		};
 	}
 }
