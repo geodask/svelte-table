@@ -1,4 +1,4 @@
-<div style="text-align:center">
+<div align="center">
   <img src="sites/docs/static/logo.svg#gh-light-mode-only" width="80">
   <img src="sites/docs/static/logo-dark.svg#gh-dark-mode-only" width="80">
 </div>
