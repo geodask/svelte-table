@@ -15,9 +15,9 @@ You achieve this you need to define your data using the `$state` rune.
 
 ```javascript
 const data = $state([
-  { id: 1, title: "Post1"; body: "Body of the post1"; author: "Alice" },
-  { id: 2, title: "Post2"; body: "Body of the post2"; author: "Bob" },
-  { id: 3, title: "Post3"; body: "Body of the post3"; author: "Charlie" },
+  { id: 1, title: "Post1", body: "Body of the post1", author: "Alice" },
+  { id: 2, title: "Post2", body: "Body of the post2", author: "Bob" },
+  { id: 3, title: "Post3", body: "Body of the post3", author: "Charlie" },
 ]);
 ```
 
