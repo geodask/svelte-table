@@ -3,8 +3,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import { cn } from '$lib/utils';
-	import { ChevronDown, Sidebar } from 'lucide-svelte';
-
+	import { ChevronDown } from 'lucide-svelte';
 	type NavigationItem = {
 		label: string;
 		href: string;
@@ -21,7 +20,7 @@
 			items: [
 				{ label: 'Introduction', href: '/docs/introduction' },
 				{ label: 'Installation', href: '/docs/installation' },
-				{ label: 'Usage', href: '/docs/usage' }
+				{ label: 'Quick Start', href: '/docs/quick-start' }
 			]
 		},
 		{
@@ -78,7 +77,7 @@
 					<Button
 						{href}
 						class={cn('justify-start pl-8', {
-							'font-bold text-primary hover:text-primary': href === $page.url.pathname
+							'text-primary hover:text-primary font-bold': href === $page.url.pathname
 						})}
 						variant="ghost"
 						size="sm">{label}</Button

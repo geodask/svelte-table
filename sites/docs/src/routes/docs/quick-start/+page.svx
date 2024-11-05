@@ -1,0 +1,99 @@
+---
+title: Quick Start
+subtitle:
+---
+
+Svelte table is intutive and extremely easy to use.
+
+The core function is `createTable` where you pass the data you need to display and the column models
+
+### Define your data
+
+In its most basic form, the table receives 2 parameters. The first on is the data. Svelte Table leverages the awesome runes that Svelte 5 provides to build a reactive table state.
+
+You achieve this you need to define your data a state using the `$state` rune.
+
+```javascript
+const data = $state([
+  { id: 1, title: "Post1"; body: "Body of the post1"; author: "Alice" },
+  { id: 2, title: "Post2"; body: "Body of the post2"; author: "Bob" },
+  { id: 3, title: "Post3"; body: "Body of the post3"; author: "Charlie" },
+]);
+```
+
+### Define the columns
+
+Next you need to define the column model again using the `$state` rune.
+
+```javascript
+const columns = $state([
+	{ key: 'id', label: 'ID' },
+	{ key: 'title', label: 'Title' },
+	{ key: 'body', label: 'Body' },
+	{ key: 'author', label: 'Auhor' }
+]);
+```
+
+### Create the table
+
+Then after you define the data and columns all you need to do is call the `createTable` function to create your table.
+
+```javascript
+const table = createTable(data, columns);
+```
+
+That's it! Your table is ready to go! It's up to you to render it however you want. Here a basic structure:
+
+```svelte
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>{cell.value}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+```
+
+This is the output. You can style it however you want
+
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Body</th>
+			<th>Author</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>Post1</td>
+			<td>Body of the post1</td>
+			<td>Alice</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>Post2</td>
+			<td>Body of the post2</td>
+			<td>Bob</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>Post3</td>
+			<td>Body of the post3</td>
+			<td>Charlie</td>
+		</tr>
+	</tbody>
+</table>
