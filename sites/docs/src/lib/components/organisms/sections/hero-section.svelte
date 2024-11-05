@@ -7,7 +7,7 @@
 	<div class="container px-4 md:px-6">
 		<div class="flex flex-col items-center space-y-4 text-center">
 			<Logo />
-			<div class="space-y-2 max-w-2xl">
+			<div class="max-w-2xl space-y-2">
 				<h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
 					Powerful Headless Table Library for Svelte
 				</h1>
@@ -16,8 +16,10 @@
 				</p>
 			</div>
 			<div class="space-x-4">
-				<Button>Get Started</Button>
-				<Button variant="outline">View on GitHub</Button>
+				<Button href="/docs">Get Started</Button>
+				<Button variant="outline" href="https://github.com/geodask/svelte-table">
+					View on GitHub
+				</Button>
 			</div>
 		</div>
 	</div>

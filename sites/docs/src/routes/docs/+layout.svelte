@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
+	import { cn } from '$lib/utils';
 	import { ChevronDown, Sidebar } from 'lucide-svelte';
 
 	type NavigationItem = {
@@ -53,7 +55,7 @@
 	<div class="grow px-2">
 		{@render children()}
 	</div>
-  
+
 	<div class="w-72 min-w-72 px-2"></div>
 </div>
 
@@ -73,7 +75,15 @@
 		<Collapsible.Content>
 			<div class="flex flex-col gap-0.5">
 				{#each items as { label, href }}
-					<Button {href} class="justify-start pl-8" variant="ghost" size="sm">{label}</Button>
+					<Button
+						{href}
+						class={cn('justify-start pl-8', {
+							'font-bold text-primary hover:text-primary': href === $page.url.pathname
+						})}
+						variant="ghost"
+						size="sm">{label}</Button
+					>
+					<!-- variant={href === $page.url.pathname ? 'default' : 'ghost'} -->
 				{/each}
 			</div>
 		</Collapsible.Content>
