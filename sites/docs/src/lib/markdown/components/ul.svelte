@@ -4,6 +4,6 @@
 	const { children }: { children: Snippet } = $props();
 </script>
 
-<h3 class="scroll-m-20 text-2xl font-semibold tracking-tight mt-6 mb-4">
+<ul class="list-disc mb-2 ml-12">
 	{@render children()}
-</h3>
+</ul>

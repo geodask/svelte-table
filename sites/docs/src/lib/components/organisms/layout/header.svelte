@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { TableIcon, ExternalLink } from 'lucide-svelte';
+	import Logo from '../logo.svelte';
 
 	type Link = {
 		label: string;
@@ -10,7 +11,8 @@
 
 <header class="flex h-14 items-center px-4 lg:px-6">
 	<a class="flex items-center justify-center" href="/">
-		<TableIcon class="mr-2 h-6 w-6" />
+		<Logo width={24} class="mr-2" />
+		<!-- <TableIcon class="mr-2 h-6 w-6" /> -->
 		<span class="font-bold">SvelteTable</span>
 	</a>
 	<nav class="ml-auto flex gap-4 sm:gap-6">
