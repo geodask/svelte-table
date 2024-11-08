@@ -1,0 +1,192 @@
+---
+title: Columns
+subtitle: Learn everything about columns
+---
+
+### Basic Usage
+
+In Svelte Table, columns are used to define the structure of your table and the data that each column will display. Each column must have an `id`, which uniquely identifies it, and optionally an `accessorKey`, which defines which property of the data to access and display in that column.
+
+
+```javascript
+const columns = $state([
+  { id: 'id', accessorKey: 'id', label: 'ID' },
+  { id: 'title', accessorKey: 'title', label: 'Title' },
+  { id: 'author', accessorKey: 'author', label: 'Author' },
+]);
+```
+
+In this example:
+
+- The `id` helps uniquely identify the column.
+- The `accessorKey` tells the table which property from each row of data to display.
+
+By default, Svelte Table renders each cell's value based on the accessorKey, which retrieves the corresponding data property. However, in some cases, you may want to customize how a cell's value is displayed. The way you render each cell is entirely up to you.
+
+You have full control over how each column's data is displayed. Whether you want to apply custom formatting, conditionally render content, or display custom components, the choice is yours.
+
+
+### Example: Custom Cell Formatting
+
+For example, you might want to modify how the cell's value appears, like wrapping it in dashes or applying other visual modifications.
+
+Here’s an example of how you could implement this:
+
+```javascript
+const formatter = (cell) => {
+  return '-' + cell.value + '-'; // Customize cell value display
+};
+```
+
+You can then use your custom formatting logic directly in your table rendering:
+
+```svelte
+<tbody>
+  {#each table.rows as row}
+    <tr>
+      {#each row.cells as cell}
+        <td>{formatter(cell)}</td> <!-- Render custom formatted value -->
+      {/each}
+    </tr>
+  {/each}
+</tbody>
+```
+
+It's up to you how to format the value. You could use a simple string manipulation, apply conditional logic, or even render HTML or Svelte components.
+
+
+### Example: Conditional Rendering based on column `id`
+
+Suppose you want to apply custom formatting only for the "age" column. You can use Svelte's conditional block to check the cell.id and conditionally apply formatting to that specific column:
+
+```svelte
+<tbody>
+  {#each table.rows as row}
+    <tr>
+      {#each row.cells as cell}
+        {#if cell.id === 'age'}
+          <td>{@html formatter(cell)}</td> <!-- Apply custom formatting -->
+        {:else}
+          <td>{cell.value}</td> <!-- Default rendering for other columns -->
+        {/if}
+      {/each}
+    </tr>
+  {/each}
+</tbody>
+```
+
+### Explanation:
+
+- Conditional Check: We check if `cell.id === 'age'`. This ensures that custom formatting is applied only to the cell in the "age" column.
+- Custom Formatter: If the condition is true (i.e., the column is "age"), we apply the `conditionalFormatter(cell)` function to format the value (e.g., adding styles, modifying the content, etc.).
+- Default Rendering: For all other columns, we simply render the value using `{cell.value}`, without any additional formatting.
+
+### Example: Using Snipets for Rendering Custom Content
+
+If you want to render a custom snippet or template inside a table cell, you can use the `{#snippet}` block. Here’s an example of how to conditionally render a custom snippet based on the column id.
+
+Conditional Rendering with `{#snippet}`
+
+
+
+```svelte
+{#snippet ActionButton(cell: Cell<Post>)}
+  <button onclick={() => onDeletePost(cell.item)}>Delete post</button>
+{/snippet}
+
+<tbody>
+  {#each table.rows as row}
+    <tr>
+      {#each row.cells as cell}
+        {#if cell.id === 'action'}
+          <td>
+           {@render ActionButton(cell)} <!-- Render an snippet in the action column -->
+          </td>
+        {:else}
+          <td>{cell.value}</td> <!-- Default rendering for other columns -->
+        {/if}
+      {/each}
+    </tr>
+  {/each}
+</tbody>
+```
+
+
+### Example: Rendering a Custom Svelte Component in a Table Cell
+
+```svelte
+<!-- ActionButton.svelte -->
+<script>
+  // ...
+  const { post }: { post: Post } =  $props();
+</script>
+
+<button onclick={() => onDeletePost(cell.item)}>Delete post</button>
+
+<!-- page.svelte -->
+<tbody>
+  {#each table.rows as row}
+    <tr>
+      {#each row.cells as cell}
+        {#if cell.id === 'action'}
+          <td>
+           <ActionButton post={cell.item}> <!-- Render a component in the action column -->
+          </td>
+        {:else}
+          <td>{cell.value}</td> <!-- Default rendering for other columns -->
+        {/if}
+      {/each}
+    </tr>
+  {/each}
+</tbody>
+```
+
+### Example: Extracting Conditional Rendering Logic into a Snippet
+
+To reduce clutter in the table's HTML, you can extract the conditional rendering logic into a `{#snippet}` block. This approach improves code organization, especially when there are multiple conditions to handle for different columns.
+
+#### Extracting Conditional Logic with `{#snippet}`
+First, define a snippet with the logic that handles how you want to format the cells based on the `cell.id`. The snippet can be used in the table template to keep the rendering logic clean.
+
+Define the Snippet
+
+```svelte
+{#snippet Cell(cell: Cell<User>)}
+  {#if cell.id === 'email'}
+    <a href="mailto:{cell.value}">{cell.value}</a> <!-- Render email as a link -->
+  {:else if cell.id === 'username'}
+    <strong>{cell.value}</strong> <!-- Render username in bold -->
+  {:else if cell.id === 'action'}
+    {@render ActionButton(cell)} <!-- Render action button defined as snippet -->
+  {:else if cell.id === 'category'}
+    <Chip label={cell.value}> <!-- Render chip component -->
+  {:else}
+    <td>{cell.value}</td> <!-- Default rendering for other columns -->
+  {/if}
+{/snippet}
+```
+
+Here, the `{#snippet}` block, named `Cell`, defines the logic to render cells based on their id values (email, username, action, etc.).
+
+#### Use the Snippet in the Table
+
+Now that you've defined the snippet, you can reference it in the table's body where the cell rendering logic is required. This will clean up the HTML and make the template more readable.
+
+```svelte
+<tbody>
+  {#each table.rows as row}
+    <tr>
+      {#each row.cells as cell}
+        <td>{@render Cell(cell)}</td> <!-- Insert the snippet to handle conditional rendering -->
+      {/each}
+    </tr>
+  {/each}
+</tbody>
+```
+
+
+### Key Takeaways
+
+- **Conditional Rendering**: Use Svelte's `{#if ...}{:else}` block to conditionally apply custom formatting to specific columns.
+- **Column-Specific Logic**: You can target columns by checking properties like `cell.id` to apply column-specific formatting.
+- **Default Rendering**: For columns that don’t require custom formatting, simply use the default `{cell.value}` rendering.
