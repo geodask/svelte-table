@@ -1,14 +1,19 @@
+import { type Snippet } from 'svelte';
+
 export type Column<T> = {
-	key: keyof T;
+	id: string;
+	accessorKey?: keyof T;
 	label: string;
-	formatter?: (value: T[keyof T]) => string;
+	snippet?: Snippet<[T]>;
 };
 
-export type Row = {
-	cells: Cell[];
+export type Row<T> = {
+	cells: Cell<T>[];
 };
 
-export type Cell = {
+export type Cell<T> = {
+	columnId: string;
+	item: T;
 	value: string;
 };
 
@@ -17,14 +22,13 @@ export type CreateTableOptions<T> = {
 };
 
 export interface Table<T> {
-	data: T[];
 	columns: Column<T>[];
 	headers: string[];
-	rows: Row[];
+	rows: Row<T>[];
 }
 
 export class TableDef<T> implements Table<T> {
-	data = $state<T[]>([]);
+	private data = $state<T[]>([]);
 	columns = $state<Column<T>[]>([]);
 
 	headers = $derived(this.generateHeaders());
@@ -47,15 +51,17 @@ export class TableDef<T> implements Table<T> {
 		return column.label;
 	}
 
-	private mapRow(item: T): Row {
+	private mapRow(item: T): Row<T> {
 		return {
 			cells: this.columns.map((column) => this.mapCell(column, item))
 		};
 	}
 
-	private mapCell(column: Column<T>, item: T): Cell {
+	private mapCell(column: Column<T>, item: T): Cell<T> {
 		return {
-			value: column.formatter ? column.formatter(item[column.key]) : String(item[column.key])
+			columnId: column.id,
+			item: item,
+			value: column?.accessorKey ? String(item[column.accessorKey]) : ''
 		};
 	}
 }
