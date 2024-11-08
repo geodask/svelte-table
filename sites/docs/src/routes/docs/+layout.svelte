@@ -24,21 +24,20 @@
 			]
 		},
 		{
-			label: 'Components',
+			label: 'Guide',
 			items: [
-				{ label: 'Table', href: '/docs/table' },
-				{ label: 'Column', href: '/docs/column' },
-				{ label: 'Row', href: '/docs/row' }
+				{ label: 'Columns', href: '/docs/columns' },
+				// { label: 'Rows', href: '/docs/row' }
 			]
 		},
-		{
-			label: 'API',
-			items: [
-				{ label: 'Table', href: '/docs/api/table' },
-				{ label: 'Column', href: '/docs/api/column' },
-				{ label: 'Row', href: '/docs/api/row' }
-			]
-		}
+		// {
+		// 	label: 'API',
+		// 	items: [
+		// 		{ label: 'Table', href: '/docs/api/table' },
+		// 		{ label: 'Column', href: '/docs/api/column' },
+		// 		{ label: 'Row', href: '/docs/api/row' }
+		// 	]
+		// }
 	];
 
 	const { children } = $props();

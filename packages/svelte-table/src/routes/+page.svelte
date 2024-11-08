@@ -1,34 +1,24 @@
 <script lang="ts">
-	import { createTable, type Column } from '$lib/index.js';
+	import { createTable, type Cell, type Column } from '$lib/index.js';
+	import type { Post } from './+page.js';
 
-	// Define your user type
-	type User = {
-		id: number;
-		name: string;
-	};
+	const { data } = $props();
 
-	// Create initial data and columns
-	const initialData: User[] = [
-		{ id: 1, name: 'John' },
-		{ id: 2, name: 'Jane' }
-	];
+	const posts = $state(data.posts);
 
-	const initialColumns: Column<User>[] = [
-		{ key: 'id', label: 'ID' },
-		{ key: 'name', label: 'Name' }
-	];
+	const columns = $state<Column<Post>[]>([
+		{ id: 'id', accessorKey: 'id', label: 'ID' },
+		{ id: 'title', accessorKey: 'title', label: 'Title' },
+		{ id: 'action', label: 'Body' }
+	]);
 
-	// Use the state management from table.svelte.ts
-	const table = createTable<User>(initialData, initialColumns);
-
-	function onClick() {
-		table.updateData((data) => {
-			return [...data, { id: data.length + 1, name: 'New user' }];
-		});
-	}
+	const table = createTable(posts, columns);
 </script>
 
-<!-- Table markup -->
+{#snippet Action(item: Post)}
+	<button>Post {item.id}</button>
+{/snippet}
+
 <table>
 	<thead>
 		<tr>
@@ -41,11 +31,19 @@
 		{#each table.rows as row}
 			<tr>
 				{#each row.cells as cell}
-					<td>{cell.value}</td>
+					<td>
+						{@render Cell(cell)}
+					</td>
 				{/each}
 			</tr>
 		{/each}
 	</tbody>
 </table>
 
-<button onclick={onClick}>Add item</button>
+{#snippet Cell(cell: Cell<Post>)}
+	{#if cell.columnId === 'action'}
+		{@render Action(cell.item)}
+	{:else}
+		{cell.value}
+	{/if}
+{/snippet}

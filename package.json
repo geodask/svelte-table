@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "docs:dev": "pnpm --filter docs dev",
+    "svelte-table:dev": "pnpm --filter svelte-table dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

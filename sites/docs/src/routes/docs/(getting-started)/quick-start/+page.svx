@@ -27,12 +27,19 @@ Next, define the column model, again using the $state rune:
 
 ```javascript
 const columns = $state([
-	{ key: 'id', label: 'ID' },
-	{ key: 'title', label: 'Title' },
-	{ key: 'body', label: 'Body' },
-	{ key: 'author', label: 'Auhor' }
+	{ id: 'id', accessorKey: 'id', label: 'ID' },
+	{ id: 'title', accessorKey: 'title', label: 'Title' },
+	{ id: 'body', accessorKey: 'body', label: 'Body' },
+	{ id: 'author', accessorKey: 'author', label: 'Auhor' }
 ]);
 ```
+
+Each column needs an `id` to uniquely identify it, and optionally, an `accessorKey`. The `accessorKey` is used to access the corresponding property from each data item and retrieve its value. If no `accessorKey` is provided, the column will use the key specified in the `id` to fetch the data.
+
+- For the column with `accessorKey: 'id'`, the values read will be `1`, `2`, and `3`.
+- For the column with `accessorKey: 'title'`, the values read will be `"Post1"`, `"Post2"`, and `"Post3"`.
+
+You can customize the way the table is rendered however you'd like. The table is highly flexible, allowing you to use custom rendering logic or components for each cell or row. For example, you can render snippets, apply conditional formatting, or even use Svelte components within the table. This gives you complete control over the structure and presentation of your table data.
 
 ### Create the table
 

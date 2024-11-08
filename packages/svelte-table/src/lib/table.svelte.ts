@@ -1,6 +1,10 @@
+import { type Snippet } from 'svelte';
+
 export type Column<T> = {
-	key: keyof T;
+	id: string;
+	accessorKey?: keyof T;
 	label: string;
+	snippet?: Snippet<[T]>;
 };
 
 export type Row<T> = {
@@ -8,7 +12,9 @@ export type Row<T> = {
 };
 
 export type Cell<T> = {
-	value: T[keyof T];
+	columnId: string;
+	item: T;
+	value: string;
 };
 
 export type CreateTableOptions<T> = {
@@ -16,38 +22,21 @@ export type CreateTableOptions<T> = {
 };
 
 export interface Table<T> {
-	data: T[];
 	columns: Column<T>[];
 	headers: string[];
 	rows: Row<T>[];
-
-	setColumns(columns: Column<T>[]): void;
-
-	updateData(updater: (data: T[]) => T[] | T[]): void;
 }
 
 export class TableDef<T> implements Table<T> {
-	data = $state<T[]>([]);
+	private data = $state<T[]>([]);
 	columns = $state<Column<T>[]>([]);
 
 	headers = $derived(this.generateHeaders());
 	rows = $derived(this.generateRows());
 
-	constructor(initialData: T[], initialColumns: Column<T>[]) {
-		this.data = initialData;
-		this.columns = initialColumns;
-	}
-
-	setColumns(columns: Column<T>[]) {
+	constructor(data: T[], columns: Column<T>[]) {
+		this.data = data;
 		this.columns = columns;
-	}
-
-	updateData(updater: (data: T[]) => T[] | T[]) {
-		if (typeof updater === 'function') {
-			this.data = updater(this.data);
-		} else {
-			this.data = updater;
-		}
 	}
 
 	private generateHeaders() {
@@ -70,7 +59,9 @@ export class TableDef<T> implements Table<T> {
 
 	private mapCell(column: Column<T>, item: T): Cell<T> {
 		return {
-			value: item[column.key]
+			columnId: column.id,
+			item: item,
+			value: column?.accessorKey ? String(item[column.accessorKey]) : ''
 		};
 	}
 }
