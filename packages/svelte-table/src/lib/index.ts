@@ -1,7 +1,11 @@
-import { TableDef, type Cell, type Column, type Row, type Table } from './table.svelte.js';
+import { TableDef } from './table.svelte.js';
+import type { Cell } from './types/cell.js';
+import type { Column } from './types/column.js';
+import type { Row } from './types/row.js';
+import type { TableOptions, Table } from './types/table.js';
 
-export function createTable<T>(data: T[], columns: Column<T>[]): Table<T> {
-	return new TableDef(data, columns);
+export function createTable<T>(data: T[], columns: Column<T>[], options: TableOptions): Table<T> {
+	return new TableDef(data, columns, options);
 }
 
-export type { Cell, Column, Row, Table };
+export type { Cell, Column, Row, Table, TableOptions };
