@@ -4,20 +4,40 @@
 
 	const { data } = $props();
 
-	const posts = $state(data.posts);
-
-	const columns = $state<Column<Post>[]>([
+	const columns: Column<Post>[] = [
 		{ id: 'id', accessorKey: 'id', label: 'ID' },
 		{ id: 'title', accessorKey: 'title', label: 'Title' },
 		{ id: 'action', label: 'Body' }
-	]);
+	];
 
-	const table = createTable(posts, columns);
+	const table = createTable(data.posts, columns, {
+		pagination: {
+			pageSize: 5,
+			page: 1
+		}
+	});
 </script>
 
 {#snippet Action(item: Post)}
 	<button>Post {item.id}</button>
 {/snippet}
+
+<button disabled={table.isFirstPage()} onclick={() => table.previousPage()}> Previous page </button>
+<button disabled={table.isLastPage()} onclick={() => table.nextPage()}> Next page </button>
+
+<select
+	onchange={(event) => {
+		const value = parseInt(event.currentTarget.value);
+		console.log(value);
+		table.setPageSize(value);
+	}}
+>
+	<option selected={table.currentPageSize === 1} value="1">1</option>
+	<option selected={table.currentPageSize === 5} value="5">5</option>
+	<option selected={table.currentPageSize === 10} value="10">10</option>
+	<option selected={table.currentPageSize === 20} value="20">20</option>
+	<option selected={table.currentPageSize === 30} value="30">30</option>
+</select>
 
 <table>
 	<thead>
@@ -39,6 +59,15 @@
 		{/each}
 	</tbody>
 </table>
+
+{#each Array(table.totalPages) as page, index}
+	<button
+		onclick={() => {
+			table.setPage(index + 1);
+		}}
+		>{index + 1}
+	</button>
+{/each}
 
 {#snippet Cell(cell: Cell<Post>)}
 	{#if cell.columnId === 'action'}
