@@ -26,18 +26,19 @@
 		{
 			label: 'Guide',
 			items: [
-				{ label: 'Columns', href: '/docs/columns' },
-				// { label: 'Rows', href: '/docs/row' }
+				{ label: 'Cell Rendring', href: '/docs/cell-rendering' },
+				{ label: 'Pagination', href: '/docs/pagination' }
 			]
 		},
-		// {
-		// 	label: 'API',
-		// 	items: [
-		// 		{ label: 'Table', href: '/docs/api/table' },
-		// 		{ label: 'Column', href: '/docs/api/column' },
-		// 		{ label: 'Row', href: '/docs/api/row' }
-		// 	]
-		// }
+		{
+			label: 'API Reference',
+			items: [
+				{ label: 'Table', href: '/docs/api/table' },
+				{ label: 'Row', href: '/docs/api/row' },
+				{ label: 'Column', href: '/docs/api/column' },
+				{ label: 'Cell', href: '/docs/api/cell' },
+			]
+		}
 	];
 
 	const { children } = $props();

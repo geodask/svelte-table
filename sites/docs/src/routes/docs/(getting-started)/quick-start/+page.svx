@@ -13,25 +13,25 @@ In its simplest form, the table takes two parameters. The first is the data. Sve
 
 You achieve this you need to define your data using the `$state` rune.
 
-```javascript
-const data = $state([
+```typescript
+const data = [
   { id: 1, title: "Post1", body: "Body of the post1", author: "Alice" },
   { id: 2, title: "Post2", body: "Body of the post2", author: "Bob" },
   { id: 3, title: "Post3", body: "Body of the post3", author: "Charlie" },
-]);
+];
 ```
 
 ### Defining the columns
 
 Next, define the column model, again using the $state rune:
 
-```javascript
-const columns = $state([
+```typescript
+const columns = [
 	{ id: 'id', accessorKey: 'id', label: 'ID' },
 	{ id: 'title', accessorKey: 'title', label: 'Title' },
 	{ id: 'body', accessorKey: 'body', label: 'Body' },
 	{ id: 'author', accessorKey: 'author', label: 'Auhor' }
-]);
+];
 ```
 
 Each column needs an `id` to uniquely identify it, and optionally, an `accessorKey`. The `accessorKey` is used to access the corresponding property from each data item and retrieve its value. If no `accessorKey` is provided, the column will use the key specified in the `id` to fetch the data.
@@ -45,7 +45,7 @@ You can customize the way the table is rendered however you'd like. The table is
 
 Once you’ve defined the data and columns, all that’s left is to call the `createTable` function to generate your table:
 
-```javascript
+```typescript
 const table = createTable(data, columns);
 ```
 

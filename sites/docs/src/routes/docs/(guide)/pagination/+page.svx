@@ -1,0 +1,97 @@
+---
+title: Pagination
+subtitle: How to easily paginate your data
+---
+
+### Introduction
+
+Pagination is a common pattern in web development. It allows you to break up a large set of data into smaller, more manageable chunks. This can help improve the performance of your application by reducing the amount of data that needs to be loaded at once.
+
+In this guide, we'll show you how to easily paginate your data using SvelteKit and SvelteKit's built-in pagination features.
+
+### Basic Pagination
+
+With Svelte Table pagination has never been easier. You can easily paginate your data by setting the `pagination` option when you can create a table. Let's take a look from the previous example:
+
+```svelte
+<script>
+  import { createTable } from 'svelte-table'
+
+  const data = [
+  { id: 1, title: "Post1", body: "Body of the post1", author: "Alice" },
+  { id: 2, title: "Post2", body: "Body of the post2", author: "Bob" },
+  { id: 3, title: "Post3", body: "Body of the post3", author: "Charlie" },
+];
+
+  const columns = [
+    { id: 'id', accessorKey: 'id', label: 'ID' },
+    { id: 'title', accessorKey: 'title', label: 'Title' },
+    { id: 'body', accessorKey: 'body', label: 'Body' },
+    { id: 'author', accessorKey: 'author', label: 'Auhor' }
+  ];
+
+  const table = createTable(data, columns, {
+    pagination: {
+      page: 1, // The initial page number
+      pageSize: 2 // The number of items per page
+    }
+  });
+</script>
+
+{#snippet Cell(cell: Cell<Post>)}
+  {#if cell.columnId === 'action'}
+    <button on:click={() => alert('Delete')}>Delete</button>
+  {:else}
+    {cell.value}
+  {/if}
+{/snippet}
+
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>
+						{@render Cell(cell)}
+					</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+
+<button {disabled}={table.isFirstPage()} onclick={() => table.previousPage()}>Previous</button>
+<button {disabled}={table.isLastPage()} onclick={() => table.nextPage()}>Next</button>
+Total Pages: {table.totalPages}
+Current Page: {table.currentPage}
+```
+
+In this example, we've set the `pagination` option to an object with two properties: `page` and `pageSize`. The `page` property specifies the initial page number, and the `pageSize` property specifies the number of items per page.
+
+Svelte table handles all the pagination logic for you, so you don't have to worry about calculating the number of pages or managing the current page number. `rows` will be automatically updated based on the current page number and page size. You can use the `previousPage` and `nextPage` methods to navigate between pages.
+
+Also you can access the current page number and the total number of pages using the `currentPage` and `totalPages` properties respectively, as well as flags to check if you are on the first or last page using the `isFirstPage` and `isLastPage` properties.
+
+Here's a summary of the properties and methods related to pagination available on the table object:
+
+- `currentPage`: The current page number.
+- `totalPages`: The total number of pages.
+- `isFirstPage()`: A flag to check if you are on the first page.
+- `isLastPage()`: A flag to check if you are on the last page.
+- `previousPage()`: A method to navigate to the previous page.
+- `nextPage()`: A method to navigate to the next page.
+
+Again all properties are reactive and are updated automatically when you call the `previousPage` or `nextPage` methods.
+
+### Custom Pagination 
+
+If your data are paginated on the server you can opt-out of the built-in pagination.
+
+TBD
