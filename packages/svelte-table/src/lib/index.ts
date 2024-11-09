@@ -5,7 +5,7 @@ import type { Pagination } from './types/pagination.js';
 import type { Row } from './types/row.js';
 import type { TableOptions, Table } from './types/table.js';
 
-export function createTable<T>(data: T[], columns: Column<T>[], options: TableOptions): Table<T> {
+export function createTable<T>(data: T[], columns: Column<T>[], options: TableOptions<T>): Table<T> {
 	return new TableDef(data, columns, options);
 }
 

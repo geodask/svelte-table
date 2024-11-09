@@ -12,8 +12,17 @@
 
 	const table = createTable(data.posts, columns, {
 		pagination: {
-			pageSize: 5,
+			pageSize: 2,
 			page: 1
+		},
+		filters: {
+			title: {
+				value: '',
+				condition: (value, item) => {
+					const lastWord = item.title.split(' ').pop();
+					return lastWord === value;
+				}
+			}
 		}
 	});
 </script>
@@ -38,6 +47,13 @@
 	<option selected={table.currentPageSize === 20} value="20">20</option>
 	<option selected={table.currentPageSize === 30} value="30">30</option>
 </select>
+
+<input
+	type="text"
+	oninput={(event) => {
+		table.setFilterValue('title', event.currentTarget.value);
+	}}
+/>
 
 <table>
 	<thead>

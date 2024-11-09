@@ -1,3 +1,4 @@
+import type { Filters } from './filter.js';
 import type { Pagination } from './pagination.js';
 import type { Row } from './row.js';
 
@@ -26,7 +27,6 @@ export interface Table<T> {
 	 */
 	currentPage: number;
 
-
 	/**
 	 * The current page size.
 	 */
@@ -43,6 +43,13 @@ export interface Table<T> {
 	 * @param updater A function that takes the current data and returns the new data.
 	 */
 	updateData(updater: (data: T[]) => T[]): void;
+
+	/**
+	 * Sets a filter on a column.
+	 * @param key The column on which to apply the filter.
+	 * @param value The value to filter by.
+	 */
+	setFilterValue(key: keyof T, value: string): void;
 
 	/**
 	 * Sets the number of items to display per page.
@@ -80,9 +87,14 @@ export interface Table<T> {
 /**
  * Options for creating a table.
  */
-export type TableOptions = {
+export type TableOptions<T> = {
 	/**
 	 * Pagination options.
 	 */
 	pagination: Pagination;
+
+	/**
+	 * Filters to apply to the table.
+	 */
+	filters?: Filters<T>;
 };
