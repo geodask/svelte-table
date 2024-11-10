@@ -5,83 +5,37 @@
 
 # Svelte Table
 
-**Svelte Table** is a lightweight, headless table library for [Svelte](https://svelte.dev/) that simplifies creating dynamic tables. Whether you're displaying simple data sets or building complex data grids, Svelte Table provides all the essential features like sorting, filtering, and pagination, while giving you full control over the table's look and feel.
+**Svelte Table** is a lightweight, headless table component built for Svelte, designed to give you full control over your table’s appearance without sacrificing essential features like sorting, filtering, and pagination. With Svelte’s reactivity at its core, it's fast, flexible, and fun to use.
 
-## Features
+## 🚀 Project Status
 
-- **Lightweight & Headless**: No built-in styles—complete flexibility to customize the table’s appearance.
-- **Sorting, Filtering, Pagination**: Core features to build interactive tables with minimal setup.
-- **Simple API**: Intuitive and easy-to-use, so you can focus on your data instead of configuration.
+Svelte Table is in its early stages — we kicked things off just a couple of weeks ago! 🛠️  
+While it’s still a work in progress, the foundations are strong, and we're actively developing key features to make it easier for Svelte devs to manage tables without the usual headaches.
 
-## Installation
+If you love clean code, flexible customization, and smooth performance, **Svelte Table** is one to watch.
 
-Install Svelte Table using npm:
+## 🎯 Goals
 
-```bash
-npm install svelte-table
-```
+Our mission is simple: **Make tables easier and more enjoyable to work with in Svelte.** Here’s what we’re focusing on:
 
-## Basic Usage
+- **Simplicity**: Offer a clean, intuitive API that’s a breeze to work with.
+- **Customization**: Give you total freedom over the look and feel of your table.
+- **Performance**: Handle large datasets without breaking a sweat (or your browser).
 
-Here’s a basic example of how to use Svelte Table:
+## ✨ Features (In Progress)
 
-```svelte
-<script lang="ts">
-  import { createTable, Column } from 'svelte-table';
+Svelte Table leverages the power of **Svelte 5's runes** for reactivity and lightning-fast performance. Here are the core features you can expect (some are still baking in the oven):
 
-  type User = {
-    id: number;
-    name: string;
-    email: string;
-  };
+- **Pagination**: Easily manage large datasets by showing one page at a time.
+- **Filtering**: Quickly filter rows with customizable input fields.
+- **Sorting**: Sort your data by clicking on column headers.
+- **Full Customization**: Use snippets and custom components to style and configure your table exactly how you want.
 
-  const data: User[] = [
-    {
-      id: 1,
-      name: 'Alice',
-      email: 'alice@example.com'
-    },
-    {
-      id: 2,
-      name: 'Bob',
-      email: 'bob@example.com'
-    }
-  ];
+## 📅 What's Next?
 
-  const columns: Column<User>[] = [
-    {
-      key: 'id',
-      label: 'User ID'
-    },
-    {
-      key: 'name',
-      label: 'Name'
-    },
-    {
-      key: 'email',
-      label: 'Email'
-    }
-  ];
+This is just the beginning! Over the coming weeks, we'll be adding more robust examples, documentation, and a few extra bells and whistles.
 
-  const table = createTable(data, { columns });
-</script>
 
-<table>
-  <thead>
-    <tr>
-      {#each table.headers as header}
-        <th>{header}</th>
-      {/each}
-    </tr>
-  </thead>
-  <tbody>
-    {#each table.rows as row}
-      <tr>
-        {#each row.cells as cell}
-          <td>{cell.value}</td>
-        {/each}
-      </tr>
-    {/each}
-  </tbody>
-</table>
-```
+## 🎉 Get Involved!
+
+Whether you're a Svelte expert or just getting started, we'd love your feedback and contributions. Have ideas? Found a bug? Open an issue or start a discussion!
