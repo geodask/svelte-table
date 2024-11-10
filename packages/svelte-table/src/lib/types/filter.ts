@@ -1,6 +1,6 @@
 export type Filter<T> = {
 	value?: string;
-	condition?: (value: string, item: T) => boolean;
+	condition?: (filterValue: string, itemValue: T[keyof T]) => boolean;
 };
 
 export type Filters<T> = {

@@ -17,18 +17,26 @@
 		},
 		filters: {
 			title: {
-				value: '',
-				condition: (value, item) => {
-					const lastWord = item.title.split(' ').pop();
-					return lastWord === value;
+				condition: (filterValue, itemValue) => {
+					if (typeof itemValue === 'string') {
+						return itemValue.toLowerCase().includes(filterValue.toLowerCase());
+					}
+					return false;
 				}
 			}
 		}
 	});
 </script>
 
-{#snippet Action(item: Post)}
-	<button>Post {item.id}</button>
+{#snippet DeleteButton(item: Post)}
+	<button
+		onclick={() => {
+			data.posts = data.posts.filter((post) => post.id !== item.id);
+			table.updateData(data.posts);
+		}}
+	>
+		Delete
+	</button>
 {/snippet}
 
 <button disabled={table.isFirstPage()} onclick={() => table.previousPage()}> Previous page </button>
@@ -76,18 +84,20 @@
 	</tbody>
 </table>
 
-{#each Array(table.totalPages) as page, index}
+{#each Array(table.totalPages) as _, index}
+	{@const page = index + 1}
 	<button
 		onclick={() => {
-			table.setPage(index + 1);
+			table.setPage(page);
 		}}
-		>{index + 1}
+	>
+		{page}
 	</button>
 {/each}
 
 {#snippet Cell(cell: Cell<Post>)}
 	{#if cell.columnId === 'action'}
-		{@render Action(cell.item)}
+		{@render DeleteButton(cell.item)}
 	{:else}
 		{cell.value}
 	{/if}

@@ -88,7 +88,7 @@ export class TableDef<T> implements Table<T> {
 					const filterValue = filter.value;
 					const filterCondition = filter.condition;
 					if (filterValue && filterCondition) {
-						return filterCondition(filterValue, item);
+						return filterCondition(filterValue,  itemValue);
 					} else if (filterValue && !filterCondition) {
 						return String(itemValue).includes(filterValue);
 					} else {
