@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	export { h1, h2, h3, h4, p, li, ul } from '../components';
+	export { h1, h2, h3, h4, p, li, ul, code } from '../components';
 </script>
 
 <script lang="ts">

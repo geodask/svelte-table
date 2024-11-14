@@ -26,6 +26,7 @@
 			}
 		}
 	});
+
 </script>
 
 {#snippet DeleteButton(item: Post)}

@@ -5,5 +5,7 @@ export { default as h4 } from './h4.svelte';
 export { default as p } from './p.svelte';
 export { default as li } from './li.svelte';
 export { default as ul } from './ul.svelte';
+export { default as code } from './code.svelte';
+
 
 
