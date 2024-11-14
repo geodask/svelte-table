@@ -3,7 +3,7 @@
   <img src="sites/docs/static/logo-dark.svg#gh-dark-mode-only" width="80">
 </div>
 
-# Svelte Table
+# Svelte Table (name is a Work In Progress)
 
 **Svelte Table** is a lightweight, headless table component built for Svelte, designed to give you full control over your table’s appearance without sacrificing essential features like sorting, filtering, and pagination. With Svelte’s reactivity at its core, it's fast, flexible, and fun to use.
 
