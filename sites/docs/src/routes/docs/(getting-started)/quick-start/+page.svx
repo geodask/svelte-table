@@ -14,10 +14,18 @@ In its simplest form, the table takes two parameters. The first is the data. Sve
 You achieve this you need to define your data using the `$state` rune.
 
 ```typescript
-const data = [
-  { id: 1, title: "Post1", body: "Body of the post1", author: "Alice" },
-  { id: 2, title: "Post2", body: "Body of the post2", author: "Bob" },
-  { id: 3, title: "Post3", body: "Body of the post3", author: "Charlie" },
+type Post = {
+	id: number;
+	title: string;
+	body: string;
+};
+
+const posts: Post[] = [
+	{ id: 1, title: 'First Post', body: 'This is the body of the first post.' },
+	{ id: 2, title: 'Second Post', body: 'This is the body of the second post.' },
+	{ id: 3, title: 'Third Post', body: 'This is the body of the third post.' },
+	{ id: 4, title: 'Fourth Post', body: 'This is the body of the fourth post.' },
+	{ id: 5, title: 'Fifth Post', body: 'This is the body of the fifth post.' }
 ];
 ```
 
@@ -26,11 +34,11 @@ const data = [
 Next, define the column model, again using the $state rune:
 
 ```typescript
-const columns = [
-	{ id: 'id', accessorKey: 'id', label: 'ID' },
-	{ id: 'title', accessorKey: 'title', label: 'Title' },
-	{ id: 'body', accessorKey: 'body', label: 'Body' },
-	{ id: 'author', accessorKey: 'author', label: 'Auhor' }
+const columns: Column<Post>[] = [
+	{ accessorKey: 'id', label: 'ID', id: 'id' },
+	{ accessorKey: 'title', label: 'Title', id: 'title' },
+	{ accessorKey: 'body', label: 'Body', id: 'body' },
+	{ id: 'action', label: '' }
 ];
 ```
 
@@ -49,58 +57,53 @@ Once you’ve defined the data and columns, all that’s left is to call the `cr
 const table = createTable(data, columns);
 ```
 
-That's it! Your table is now ready to go. It's entirely up to you how you render it. Here’s a basic structure for rendering:
+That's it! Your table is now ready to go. It's entirely up to you how you render it. Here’s a basic structure for rendering. Here I am using [shadcn-svelte](https://next.shadcn-svelte.com/) as my ui library:
 
 ```svelte
-<table>
-	<thead>
-		<tr>
+<Table.Root>
+	<Table.Caption>A list of your recent invoices.</Table.Caption>
+	<Table.Header>
+		<Table.Row>
 			{#each table.headers as header}
-				<th>{header}</th>
+				<Table.Head
+					class={cn({
+						'w-[100px]': header === 'ID'
+					})}>{header}</Table.Head
+				>
 			{/each}
-		</tr>
-	</thead>
-	<tbody>
+		</Table.Row>
+	</Table.Header>
+	<Table.Body>
 		{#each table.rows as row}
-			<tr>
+			<Table.Row>
 				{#each row.cells as cell}
-					<td>{cell.value}</td>
+					<Table.Cell>
+						{#if cell.columnId === 'action'}
+							<DropdownMenu.Root>
+								<DropdownMenu.Trigger>
+									{#snippet child({ props })}
+										<Button {...props} variant="outline">Action</Button>
+									{/snippet}
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content preventScroll={false}>
+									<DropdownMenu.Item>Edit</DropdownMenu.Item>
+									<DropdownMenu.Item>Delete</DropdownMenu.Item>
+								</DropdownMenu.Content>
+							</DropdownMenu.Root>
+						{:else}
+							{cell.value}
+						{/if}
+					</Table.Cell>
 				{/each}
-			</tr>
+			</Table.Row>
 		{/each}
-	</tbody>
-</table>
+	</Table.Body>
+</Table.Root>
 ```
 
-Here’s the expected output. You can style it however you'd like:
 
-<table>
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Title</th>
-			<th>Body</th>
-			<th>Author</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Post1</td>
-			<td>Body of the post1</td>
-			<td>Alice</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Post2</td>
-			<td>Body of the post2</td>
-			<td>Bob</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Post3</td>
-			<td>Body of the post3</td>
-			<td>Charlie</td>
-		</tr>
-	</tbody>
-</table>
+<script lang="ts">
+	import Table from './table.svelte';
+</script>
+
+<Table />
