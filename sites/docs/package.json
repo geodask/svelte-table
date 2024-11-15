@@ -1,6 +1,13 @@
 {
 	"name": "docs",
 	"version": "0.0.1",
+	"description": "Documentation site for svelte-table",
+	"license": "MIT",
+	"private": true,
+	"author": {
+		"name": "George Daskalakis",
+		"url": "https://geodask.com"
+	},
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
