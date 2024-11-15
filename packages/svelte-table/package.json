@@ -8,6 +8,7 @@
 		"url": "https://github.com/geodask/svelte-table.git",
 		"directory": "packages/svelte-table"
 	},
+	"homepage": "https://svelte-table.vercel.app",
 	"author": {
 		"name": "George Daskalakis",
 		"url": "https://geodask.com"
