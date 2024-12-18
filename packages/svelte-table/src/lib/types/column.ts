@@ -1,5 +1,9 @@
+export type AccessorKey<T> = keyof T;
+
 export type Column<T> = {
 	id: string;
-	accessorKey?: keyof T;
+	accessorKey?: AccessorKey<T>;
 	label: string;
 };
+
+

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import { cn } from '$lib/utils';
@@ -77,12 +77,12 @@
 					<Button
 						{href}
 						class={cn('justify-start pl-8', {
-							'text-primary hover:text-primary font-bold': href === $page.url.pathname
+							'text-primary hover:text-primary font-bold': href === page.url.pathname
 						})}
 						variant="ghost"
 						size="sm">{label}</Button
 					>
-					<!-- variant={href === $page.url.pathname ? 'default' : 'ghost'} -->
+					<!-- variant={href === page.url.pathname ? 'default' : 'ghost'} -->
 				{/each}
 			</div>
 		</Collapsible.Content>

@@ -6,27 +6,38 @@
 
 	const columns: Column<Post>[] = [
 		{ id: 'id', accessorKey: 'id', label: 'ID' },
-		{ id: 'title', accessorKey: 'title', label: 'Title' },
-		{ id: 'action', label: 'Body' }
+		{
+			id: 'title',
+			accessorKey: 'title',
+			label: 'Title'
+		},
+		{
+			id: 'action',
+			label: 'Body'
+		}
 	];
 
 	const table = createTable(data.posts, columns, {
 		pagination: {
-			pageSize: 2,
+			pageSize: 5,
 			page: 1
 		},
-		filters: {
+		columnFilters: {
 			title: {
 				condition: (filterValue, itemValue) => {
-					if (typeof itemValue === 'string') {
+					if (filterValue) {
 						return itemValue.toLowerCase().includes(filterValue.toLowerCase());
 					}
-					return false;
+					return true;
 				}
+			}
+		},
+		globalFilter: {
+			condition: (_filterValue, post) => {
+				return post.id % 2 === 0;
 			}
 		}
 	});
-
 </script>
 
 {#snippet DeleteButton(item: Post)}
@@ -40,8 +51,8 @@
 	</button>
 {/snippet}
 
-<button disabled={table.isFirstPage()} onclick={() => table.previousPage()}> Previous page </button>
-<button disabled={table.isLastPage()} onclick={() => table.nextPage()}> Next page </button>
+<button disabled={table.isOnFirstPage} onclick={() => table.previousPage()}> Previous page </button>
+<button disabled={table.isOnLastPage} onclick={() => table.nextPage()}> Next page </button>
 
 <select
 	onchange={(event) => {
@@ -84,6 +95,13 @@
 		{/each}
 	</tbody>
 </table>
+
+<div>
+	Total items: {table.totalItems}
+</div>
+<div>
+	Pages: {table.currentPage} of {table.totalPages}
+</div>
 
 {#each Array(table.totalPages) as _, index}
 	{@const page = index + 1}

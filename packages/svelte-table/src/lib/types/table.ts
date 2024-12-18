@@ -1,4 +1,5 @@
-import type { Filters } from './filter.js';
+import type { AccessorKey } from './column.js';
+import type { ColumnFiltersOptions, GlobalFilterOptions } from './filter.js';
 import type { Pagination } from './pagination.js';
 import type { Row } from './row.js';
 
@@ -18,6 +19,11 @@ export interface Table<T> {
 	rows: Row<T>[];
 
 	/**
+	 * The total number of items in the table.
+	 */
+	totalItems: number;
+
+	/**
 	 * The total number of pages in the table based on the current page size.
 	 */
 	totalPages: number;
@@ -31,6 +37,16 @@ export interface Table<T> {
 	 * The current page size.
 	 */
 	currentPageSize: number;
+
+	/**
+ * Is true if the current page is the last page.
+ */
+	isOnLastPage: boolean;
+
+	/**
+	 * Is true if the current page is the first page.
+	 */
+	isOnFirstPage: boolean;
 
 	/**
 	 * Updates the data in the table.
@@ -49,7 +65,7 @@ export interface Table<T> {
 	 * @param key The column on which to apply the filter.
 	 * @param value The value to filter by.
 	 */
-	setFilterValue(key: keyof T, value: string): void;
+	setFilterValue<K extends keyof T = AccessorKey<T>>(key: K, value: T[K]): void;
 
 	/**
 	 * Sets the number of items to display per page.
@@ -73,15 +89,7 @@ export interface Table<T> {
 	 */
 	previousPage(): void;
 
-	/**
-	 * Returns true if the current page is the last page.
-	 */
-	isLastPage(): boolean;
 
-	/**
-	 * Returns true if the current page is the first page.
-	 */
-	isFirstPage(): boolean;
 }
 
 /**
@@ -94,7 +102,12 @@ export type TableOptions<T> = {
 	pagination: Pagination;
 
 	/**
-	 * Filters to apply to the table.
+	 * Column filter options.
 	 */
-	filters?: Filters<T>;
+	columnFilters?: ColumnFiltersOptions<T>;
+
+	/**
+	 * Global filter options.
+	 */
+	globalFilter?: GlobalFilterOptions<T>;
 };
