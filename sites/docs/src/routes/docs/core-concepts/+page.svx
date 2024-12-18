@@ -1,0 +1,133 @@
+---
+title: Core Concepts
+---
+
+To master `svelte-table`, it's important to understand its core concepts. This page will guide you through the foundational ideas and how they fit together to create flexible and powerful tables.
+
+## The Building Blocks
+
+### 1. **Data**
+Your table starts with your data—a simple array of objects. Each object represents a row, and its keys map to columns in your table.
+
+```ts
+interface Person {
+  id: number;
+  name: string;
+  age: number;
+}
+
+const data: Person[] = [
+  { id: 1, name: 'Alice', age: 25 },
+  { id: 2, name: 'Bob', age: 30 },
+];
+```
+
+
+
+### 2. **Columns**
+Columns define the structure of your table. Each column specifies:
+- **Header**: The column title displayed in the table.
+- **Accessor Key**: The key in your data objects that maps to this column.
+- **Optional Properties**: Customizations like sorting, filtering conditions, or formatting.
+
+```ts
+const columns = [
+  { id: 'id', header: 'ID', accessorKey: 'id' },
+  { id: 'name', header: 'Name', accessorKey: 'name' },
+  { id: 'age', header: 'Age', accessorKey: 'age' },
+];
+```
+
+
+
+### 3. **Table Instance**
+The `createTable` function ties it all together. It takes your data, columns, and optional configuration (pagination, filtering) and returns a reactive table instance.
+
+```ts
+import { createTable } from '@geodask/svelte-table';
+
+const table = createTable(data, columns, {
+  pagination: { pageSize: 5, page: 1 },
+  filters: {
+    columnFilters: {},
+    globalFilter: null,
+  },
+});
+```
+
+
+
+## Reactive State Management
+
+`svelte-table` is built with Svelte’s powerful reactivity in mind. Key properties like `headers`, `rows`, and pagination stats are automatically updated when you modify data or settings.
+
+### Accessing Headers and Rows
+- `table.headers`: An array of headers derived from your columns.
+- `table.rows`: The rows displayed in the current view, filtered and paginated as needed.
+
+```svelte
+<table>
+  <thead>
+    <tr>
+      {#each table.headers as header}
+        <th>{header.label}</th>
+      {/each}
+    </tr>
+  </thead>
+  <tbody>
+    {#each table.rows as row}
+      <tr>
+        {#each row.cells as cell}
+          <td>{cell.value}</td>
+        {/each}
+      </tr>
+    {/each}
+  </tbody>
+</table>
+```
+
+
+
+## Features in Detail
+
+### Pagination
+Break large datasets into manageable chunks.
+
+```ts
+table.setPageSize(10); // Set page size to 10
+table.setPage(2);      // Move to page 2
+```
+
+Key properties:
+- `table.currentPage`: The current page number.
+- `table.totalPages`: Total number of pages.
+- `table.isOnFirstPage` / `table.isOnLastPage`: Booleans to track page navigation.
+
+
+
+### Filtering
+Filtering in `svelte-table` is powered by `FiltersDef`, which allows you to dynamically filter rows based on column-specific values or a global filter applied across all columns. Filters can be initialized in the table options and updated interactively.
+
+```ts
+const table = createTable(data, columns, {
+  pagination: { pageSize: 10, page: 1 },
+  filters: {
+    columnFilters: {
+      name: { value: '', condition: (filterValue, itemValue) => itemValue.includes(filterValue) },
+      age: { condition: (filterValue, itemValue) => Number(itemValue) >= Number(filterValue) },
+    },
+    globalFilter: (row, globalFilterValue) =>
+      Object.values(row).some((value) => String(value).includes(globalFilterValue)),
+  },
+});
+```
+
+### Setting Filters
+- **Column Filter**: Use `table.setFilterValue(columnKey, filterValue)` to set a filter for a specific column.
+- **Global Filter**: Use `table.setGlobalFilterValue(filterValue)` to apply a filter across all rows.
+
+### Example
+```ts
+table.setFilterValue('name', 'John'); // Filter rows where 'name' contains 'John'
+table.setGlobalFilterValue('Doe');    // Filter rows where any column contains 'Doe'
+```

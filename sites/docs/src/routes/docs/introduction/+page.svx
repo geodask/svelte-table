@@ -1,0 +1,92 @@
+---
+title: Introduction
+subtitle: A Flexible and Reactive Data Table Library for Svelte Developers
+---
+
+Welcome to **`svelte-table`**! 🎉 If you’ve ever stared at a giant pile of data and thought, _"There has to be an easier way to organize this mess,"_ you’re in the right place. `svelte-table` is here to rescue you from hand-coding repetitive table logic and instead let you focus on building great apps.
+
+### What is `svelte-table`?
+
+`svelte-table` is a **headless state management library for data tables**. It's not a component library that forces you into a specific design or CSS framework. Instead, it gives you the raw tools (like pagination, filtering, and sorting) to build **exactly the table you need**—all while embracing Svelte’s supercharged reactivity.
+
+### Why Should You Care?
+
+Because tables are everywhere! From dashboards to admin panels to spreadsheets, we developers love tables. But tables can quickly become a nightmare to manage when you throw in things like pagination, filtering, or custom cell renderers. That’s where `svelte-table` shines—it handles all the boring data-wrangling for you, leaving you free to focus on making your tables beautiful and functional.
+
+Here’s what you get:
+
+- ✨ **Powerful Features**: Out-of-the-box support for pagination, filtering, and custom rendering.
+- ⚡ **Blazing Fast Reactivity**: Built with Svelte 5's runes for reactive state management.
+- 🛠️ **Fully Customizable**: You control the layout, design, and styles.
+- 📦 **TypeScript-Ready**: Fully typed APIs, because you deserve better than `any`.
+
+### How Does It Work?
+
+At the core of `svelte-table` is the **`createTable`** function. You give it some data, define your columns, and boom—you get a reactive table object ready to handle your rows, pagination, and filters. Think of it as your table's personal assistant, always keeping things organized.
+
+Here’s a sneak peek:
+
+```svelte
+<script lang="ts">
+	import { createTable } from '@geodask/svelte-table';
+
+	interface Person {
+		id: number;
+		name: string;
+		age: number;
+	}
+
+	const data: Person[] = [
+		{ id: 1, name: 'Alice', age: 25 },
+		{ id: 2, name: 'Bob', age: 30 }
+	];
+
+	interface Column {
+		header: string;
+		accessor: keyof Person;
+	}
+
+	const columns: Column[] = [
+		{ header: 'ID', accessor: 'id' },
+		{ header: 'Name', accessor: 'name' },
+		{ header: 'Age', accessor: 'age' }
+	];
+
+	const table = createTable(data, columns);
+</script>
+
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header.label}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>{cell.value}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+```
+
+See? No fancy proprietary syntax—just the raw power of Svelte.
+
+### Who Is This For?
+
+`svelte-table` is for:
+
+- 🧑‍💻 **Developers** who love flexibility and hate being boxed into a UI framework.
+- 🤹 **Power Users** who need their tables to do it all—pagination, filters, and dynamic updates.
+- 🐣 **Beginners** looking to learn how to manage data in Svelte while avoiding common headaches.
+
+### What This Isn't
+
+We’re not here to tell you how your table should look—that’s your call! `svelte-table` doesn’t come with built-in CSS or components, so you can style it to match your app, whether that’s Material, Tailwind, or your own bespoke design system. Think of us as the engine under the hood—you’re the one driving the car.
+
+Ready to dive in? Check out the **Getting Started** guide to set up your first table in just a few minutes. 🚀

@@ -1,14 +1,13 @@
 <script lang="ts">
-	import Footer from '$lib/components/organisms/layout/footer.svelte';
-	import Header from '$lib/components/organisms/layout/header.svelte';
+	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
 	let { children } = $props();
 </script>
 
+<ModeWatcher />
+
 <div class="flex min-h-screen flex-col">
-	<Header />
 	<div class="grow">
 		{@render children()}
 	</div>
-	<Footer />
 </div>

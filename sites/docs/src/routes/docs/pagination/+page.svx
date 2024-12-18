@@ -1,0 +1,148 @@
+---
+title: Pagination
+---
+
+Pagination is a core feature of `svelte-table` that allows you to efficiently display and navigate large datasets by splitting them into smaller chunks. This page explains how pagination works, how to set it up, and how to use it effectively.
+
+## How Pagination Works
+
+Pagination in `svelte-table` splits your dataset into pages, each containing a specified number of rows. This helps improve performance and enhances the user experience when dealing with large datasets.
+
+## Setting Up Pagination
+
+When creating a table, you can enable pagination by passing the `pagination` option to the `createTable` function. Here's an example:
+
+```ts
+import { createTable } from '@geodask/svelte-table';
+
+const data = [
+	{ id: 1, name: 'John', age: 25 },
+	{ id: 2, name: 'Jane', age: 30 },
+	{ id: 3, name: 'Doe', age: 35 }
+	// more data...
+];
+
+const columns = [
+	{ id: 'id', header: 'ID', accessorKey: 'id' },
+	{ id: 'name', header: 'Name', accessorKey: 'name' },
+	{ id: 'age', header: 'Age', accessorKey: 'age' }
+];
+
+const table = createTable(data, columns, {
+	pagination: { pageSize: 2, page: 1 }
+});
+```
+
+In this example:
+
+- `pageSize` specifies the number of rows per page.
+- `page` specifies the initial page to display.
+
+## Pagination Methods
+
+`svelte-table` provides several methods to control pagination:
+
+### 1. `setPage(page: number)`
+
+Sets the current page to the specified number.
+
+```ts
+table.setPage(2); // Switch to page 2
+```
+
+### 2. `setPageSize(pageSize: number)`
+
+Updates the number of rows displayed per page.
+
+```ts
+table.setPageSize(5); // Show 5 rows per page
+```
+
+### 3. `nextPage()`
+
+Moves to the next page.
+
+```ts
+table.nextPage();
+```
+
+### 4. `previousPage()`
+
+Moves to the previous page.
+
+```ts
+table.previousPage();
+```
+
+## Reactive Pagination Properties
+
+These properties provide reactive access to the current state of pagination:
+
+- `table.currentPage`: The current page number.
+- `table.currentPageSize`: The number of rows per page.
+- `table.totalPages`: The total number of pages.
+- `table.isOnFirstPage`: `true` if on the first page.
+- `table.isOnLastPage`: `true` if on the last page.
+
+```svelte
+<p>Current Page: {table.currentPage}</p>
+<p>Total Pages: {table.totalPages}</p>
+<button on:click={() => table.previousPage()} disabled={table.isOnFirstPage}> Previous </button>
+<button on:click={() => table.nextPage()} disabled={table.isOnLastPage}> Next </button>
+```
+
+## Example: Full Pagination Control
+
+Here's how you can integrate pagination controls in your Svelte component:
+
+```svelte
+<script>
+	import { createTable } from '@geodask/svelte-table';
+
+	const data = [
+		{ id: 1, name: 'Alice', age: 25 },
+		{ id: 2, name: 'Bob', age: 30 },
+		{ id: 3, name: 'Charlie', age: 35 },
+		{ id: 4, name: 'Diana', age: 40 }
+	];
+
+	const columns = [
+		{ id: 'id', header: 'ID', accessorKey: 'id' },
+		{ id: 'name', header: 'Name', accessorKey: 'name' },
+		{ id: 'age', header: 'Age', accessorKey: 'age' }
+	];
+
+	const table = createTable(data, columns, {
+		pagination: { pageSize: 2, page: 1 }
+	});
+</script>
+
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header.label}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>{cell.value}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+
+<div>
+	<button on:click={() => table.previousPage()} disabled={table.isOnFirstPage}> Previous </button>
+	<span>Page {table.currentPage} of {table.totalPages}</span>
+	<button on:click={() => table.nextPage()} disabled={table.isOnLastPage}> Next </button>
+</div>
+```
+
+## Summary
+
+Pagination in `svelte-table` is easy to set up and highly customizable. With a combination of reactive properties and flexible methods, you can implement powerful pagination controls that enhance the usability of your tables.

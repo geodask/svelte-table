@@ -1,0 +1,119 @@
+---
+title: Filters
+---
+
+Filters in `svelte-table` provide a flexible way to refine your data by applying conditions at the column level (`columnFilters`) or across all columns (`globalFilter`). This guide explains how to set up and use filters effectively.
+
+## How Filters Work
+
+### Types of Filters
+
+1. **Column Filters**: Applied to specific columns using a key-value pair.
+2. **Global Filter**: Applied to all columns to match a value anywhere in the row.
+
+Both filters rely on a `condition` function that determines whether a row matches the filter criteria.
+
+## Setting Up Filters
+
+To use filters, include the `filters` option when creating your table:
+
+```ts
+import { createTable } from '@geodask/svelte-table';
+
+const data = [
+	{ id: 1, name: 'Alice', age: 25 },
+	{ id: 2, name: 'Bob', age: 30 },
+	{ id: 3, name: 'Charlie', age: 35 }
+];
+
+const columns = [
+	{ id: 'id', header: 'ID', accessorKey: 'id' },
+	{ id: 'name', header: 'Name', accessorKey: 'name' },
+	{ id: 'age', header: 'Age', accessorKey: 'age' }
+];
+
+const table = createTable(data, columns, {
+	filters: {
+		columnFilters: {
+			name: { value: '', condition: (filterValue, itemValue) => itemValue.includes(filterValue) },
+			age: { condition: (filterValue, itemValue) => Number(itemValue) >= Number(filterValue) }
+		},
+		globalFilter: (row, filterValue) =>
+			Object.values(row).some((value) => String(value).includes(filterValue))
+	}
+});
+```
+
+## Using Filters Dynamically
+
+### Setting Column Filters
+
+Use the `setFilterValue` method to apply a filter to a specific column:
+
+```ts
+table.setFilterValue('name', 'Alice'); // Shows rows where 'name' includes 'Alice'
+table.setFilterValue('age', '30'); // Shows rows where 'age' >= 30
+```
+
+### Setting a Global Filter
+
+Use the `setGlobalFilterValue` method to apply a filter across all columns:
+
+```ts
+table.setGlobalFilterValue('Alice'); // Shows rows where any column contains 'Alice'
+```
+
+## Customizing Filter Conditions
+
+Each column filter can define a custom `condition` function, which determines whether a row matches the filter criteria.
+
+### Example:
+
+```ts
+const table = createTable(data, columns, {
+	filters: {
+		columnFilters: {
+			name: {
+				condition: (filterValue, itemValue) =>
+					itemValue.toLowerCase().startsWith(filterValue.toLowerCase())
+			}
+		}
+	}
+});
+
+table.setFilterValue('name', 'A'); // Shows rows where 'name' starts with 'A'
+```
+
+## Reactive Filter Properties
+
+The following properties allow you to access filtered data and filter states reactively:
+
+- **`table.rows`**: Rows after all filters have been applied.
+- **`table.headers`**: Unaffected column headers.
+
+```svelte
+<p>Showing {table.rows.length} filtered rows</p>
+
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header.label}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>{cell.value}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+```
+
+## Summary
+
+Filters in `svelte-table` enable powerful and flexible data refinement. With support for both column-specific and global filters, you can create highly interactive and user-friendly tables.

@@ -1,0 +1,101 @@
+---
+title: Getting Started
+subtitle:
+---
+
+So, you're ready to dive into `svelte-table`? Great choice! 🎉 Here's a simple guide to get you up and running with a powerful, customizable data table in no time.
+
+### Installation
+
+First things first, let's get `svelte-table` installed. Open your terminal and run:
+
+```bash
+# Using npm
+npm install @geodask/svelte-table
+
+# Or, if you prefer yarn
+yarn add @geodask/svelte-table
+
+# Or pnpm
+pnpm add @geodask/svelte-table
+```
+
+Once that's done, you're ready to roll! 🚀
+
+### Setting Up Your First Table
+
+Creating a table with `svelte-table` is like having a cup of coffee in the morning—simple, satisfying, and you’ll wonder how you ever lived without it. Here's how:
+
+```svelte
+<script lang="ts">
+	import { createTable } from '@geodask/svelte-table';
+
+	interface Person {
+		id: number;
+		name: string;
+		age: number;
+	}
+
+	// Your data
+	const data: Person[] = [
+		{ id: 1, name: 'Alice', age: 25 },
+		{ id: 2, name: 'Bob', age: 30 }
+	];
+
+	// Define your columns
+	const columns = [
+		{ header: 'ID', accessor: 'id' },
+		{ header: 'Name', accessor: 'name' },
+		{ header: 'Age', accessor: 'age' }
+	];
+
+	// Create the table instance
+	const table = createTable(data, columns);
+</script>
+
+<table>
+	<thead>
+		<tr>
+			{#each table.headers as header}
+				<th>{header.label}</th>
+			{/each}
+		</tr>
+	</thead>
+	<tbody>
+		{#each table.rows as row}
+			<tr>
+				{#each row.cells as cell}
+					<td>{cell.value}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
+```
+
+That’s it! You’ve just created your first `svelte-table`. No fancy tricks, no extra fluff—just clean, simple code.
+
+### Next Steps
+
+Now that your table is up and running, what’s next? Here are some ideas to take things to the next level:
+
+- **Add Pagination**:
+  Easily break down your data into manageable chunks with built-in pagination support.
+
+  ```svelte
+  table.setPageSize(5); // Show 5 rows per page table.setPage(1); // Go to page 1
+  ```
+
+- **Enable Filtering**:
+  Let users find the exact rows they need.
+
+  ```svelte
+  table.setFilterValue('name', 'Alice'); // Show only rows where name is Alice
+  ```
+
+- **Custom Cell Renderers**:
+  Add your own flair to cells by using custom render functions.
+
+### You're All Set!
+
+That’s all it takes to get started with `svelte-table`. From here, you can explore the **Core Concepts** and **Examples** sections to unlock even more potential. Take your tables to the next level and customize them however you need.

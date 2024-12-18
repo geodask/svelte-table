@@ -1,0 +1,198 @@
+---
+title: 'API Reference: Table'
+---
+
+This section provides a comprehensive reference for all methods, properties, and options available in `svelte-table`. Use this as your go-to resource for quick answers and detailed usage information.
+
+---
+
+## Core Functionality
+
+### `createTable`
+
+Creates a new table instance with the provided data, columns, and options.
+
+#### Parameters:
+
+- **`data`** (`T[]`): The dataset for the table, where each object represents a row.
+- **`columns`** (`Column[]`): The column definitions.
+- **`options`** (optional): Configuration options for features like pagination and filters.
+
+#### Example:
+
+```ts
+const table = createTable(data, columns, {
+	pagination: { pageSize: 10, page: 1 },
+	filters: {
+		columnFilters: {},
+		globalFilter: null
+	}
+});
+```
+
+---
+
+## Methods
+
+### `setPage`
+
+Sets the current page.
+
+#### Parameters:
+
+- **`page`** (`number`): The page number to navigate to.
+
+#### Example:
+
+```ts
+table.setPage(2); // Switch to page 2
+```
+
+---
+
+### `setPageSize`
+
+Updates the number of rows displayed per page.
+
+#### Parameters:
+
+- **`pageSize`** (`number`): The number of rows per page.
+
+#### Example:
+
+```ts
+table.setPageSize(5); // Show 5 rows per page
+```
+
+---
+
+### `nextPage`
+
+Moves to the next page.
+
+#### Example:
+
+```ts
+table.nextPage();
+```
+
+---
+
+### `previousPage`
+
+Moves to the previous page.
+
+#### Example:
+
+```ts
+table.previousPage();
+```
+
+---
+
+### `setFilterValue`
+
+Sets a filter value for a specific column.
+
+#### Parameters:
+
+- **`columnKey`** (`string`): The key of the column to apply the filter to.
+- **`filterValue`** (`string`): The filter value to apply.
+
+#### Example:
+
+```ts
+table.setFilterValue('name', 'Alice'); // Filters rows where 'name' includes 'Alice'
+```
+
+---
+
+### `setGlobalFilterValue`
+
+Sets a global filter value to apply across all columns.
+
+#### Parameters:
+
+- **`filterValue`** (`string`): The filter value to apply.
+
+#### Example:
+
+```ts
+table.setGlobalFilterValue('Alice'); // Filters rows where any column includes 'Alice'
+```
+
+---
+
+## Reactive Properties
+
+### `table.headers`
+
+An array of headers derived from the column definitions.
+
+#### Example:
+
+```svelte
+{#each table.headers as header}
+	<th>{header.label}</th>
+{/each}
+```
+
+---
+
+### `table.rows`
+
+The rows displayed in the current view, filtered and paginated as needed.
+
+#### Example:
+
+```svelte
+{#each table.rows as row}
+	<tr>
+		{#each row.cells as cell}
+			<td>{cell.value}</td>
+		{/each}
+	</tr>
+{/each}
+```
+
+---
+
+### `table.currentPage`
+
+The current page number.
+
+#### Example:
+
+```svelte
+<p>Current Page: {table.currentPage}</p>
+```
+
+---
+
+### `table.totalPages`
+
+The total number of pages based on the dataset and page size.
+
+#### Example:
+
+```svelte
+<p>Total Pages: {table.totalPages}</p>
+```
+
+---
+
+## Configuration Options
+
+### Pagination Options
+
+- **`pageSize`** (`number`): Number of rows per page.
+- **`page`** (`number`): Initial page number.
+
+### Filter Options
+
+- **`columnFilters`** (`Record<string, Filter>`): Filters applied to specific columns.
+- **`globalFilter`** (`(row: T, filterValue: string) => boolean`): Custom function to apply a global filter.
+
+---
+
+This reference provides a complete overview of the `svelte-table` API. Let me know if there are additional details or examples you'd like to include!
