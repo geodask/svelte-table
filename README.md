@@ -1,41 +1,105 @@
-<div align="center">
-  <img src="sites/docs/static/logo.svg#gh-light-mode-only" width="80">
-  <img src="sites/docs/static/logo-dark.svg#gh-dark-mode-only" width="80">
-</div>
+# SvelteTable
 
-# Svelte Table (name is a Work In Progress)
+SvelteTable is a flexible and powerful **headless data table solution** for Svelte applications. With its headless architecture, SvelteTable allows you to fully control the markup and styles while offering advanced features like sorting, filtering, pagination, and more.
 
-**Svelte Table** is a lightweight, headless table component built for Svelte, designed to give you full control over your table’s appearance without sacrificing essential features like sorting, filtering, and pagination. With Svelte’s reactivity at its core, it's fast, flexible, and fun to use.
+## Features
 
-## 🚀 Project Status
+- **Headless Architecture**: Bring your own UI components while SvelteTable handles the logic.
+- **Sorting & Filtering**: Built-in capabilities with support for custom logic.
+- **Pagination**: Effortless pagination with customizable page sizes and navigation.
+- **Row Selection**: Flexible support for single and multi-row selection.
+- **Accessibility**: Built with WAI-ARIA guidelines in mind.
+- **TypeScript Support**: Fully typed for a seamless development experience.
 
-Svelte Table is in its early stages — we kicked things off just a couple of weeks ago! 🛠️  
-While it’s still a work in progress, the foundations are strong, and we're actively developing key features to make it easier for Svelte devs to manage tables without the usual headaches.
+## Installation
 
-If you love clean code, flexible customization, and smooth performance, **Svelte Table** is one to watch.
+Install SvelteTable via npm:
 
-## 🎯 Goals
+```bash
+npm install @geodask/svelte-table
+```
 
-Our mission is simple: **Make tables easier and more enjoyable to work with in Svelte.** Here’s what we’re focusing on:
+or using yarn:
 
-- **Simplicity**: Offer a clean, intuitive API that’s a breeze to work with.
-- **Customization**: Give you total freedom over the look and feel of your table.
-- **Performance**: Handle large datasets without breaking a sweat (or your browser).
+```bash
+yarn add @geodask/svelte-table
+```
 
-## ✨ Features (In Progress)
+or pnpm:
 
-Svelte Table leverages the power of **Svelte 5's runes** for reactivity and lightning-fast performance. Here are the core features you can expect (some are still baking in the oven):
+```bash
+pnpm add @geodask/svelte-table
+```
 
-- **Pagination**: Easily manage large datasets by showing one page at a time.
-- **Filtering**: Quickly filter rows with customizable input fields.
-- **Sorting**: Sort your data by clicking on column headers.
-- **Full Customization**: Use snippets and custom components to style and configure your table exactly how you want.
+## Getting Started
 
-## 📅 What's Next?
+Here’s how to set up a simple table:
 
-This is just the beginning! Over the coming weeks, we'll be adding more robust examples, documentation, and a few extra bells and whistles.
+```svelte
+<script lang="ts">
+import { createTable } from '@geodask/svelte-table';
 
+const data = [
+  { id: 1, name: 'Alice', age: 25 },
+  { id: 2, name: 'Bob', age: 30 },
+];
 
-## 🎉 Get Involved!
+const columns = [
+  { id: 'id', header: 'ID', accessorKey: 'id' },
+  { id: 'name', header: 'Name', accessorKey: 'name' },
+  { id: 'age', header: 'Age', accessorKey: 'age' },
+];
 
-Whether you're a Svelte expert or just getting started, we'd love your feedback and contributions. Have ideas? Found a bug? Open an issue or start a discussion!
+const table = createTable(data, columns, {
+  pagination: { pageSize: 5, page: 1 },
+});
+</script>
+
+<table>
+  <thead>
+    <tr>
+      {#each table.headers as header}
+        <th>{header.label}</th>
+      {/each}
+    </tr>
+  </thead>
+  <tbody>
+    {#each table.rows as row}
+      <tr>
+        {#each row.cells as cell}
+          <td>{cell.value}</td>
+        {/each}
+      </tr>
+    {/each}
+  </tbody>
+</table>
+```
+
+## Documentation
+
+Explore the [official documentation](https://svelte-table.vercel.app) to learn more about:
+
+- Core Concepts
+- Pagination
+- Filtering
+- API Reference
+
+## Examples
+
+Check out the [Examples](https://your-examples-link.com) to see SvelteTable in action and get inspired.
+
+## Contributing
+
+We welcome contributions from the community! To get started:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push your branch (`git push origin feature/your-feature-name`).
+5. Open a pull request.
+
+Check the [contribution guidelines](https://your-contribution-guidelines-link.com) for more information.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
